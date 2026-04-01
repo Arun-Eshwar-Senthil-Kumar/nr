@@ -1,0 +1,196 @@
+
+1. Create a Maven Project in Git 
+• Create a new Git repository  
+• Create a simple Maven project structure manually, including the following files and folders: 
+o pom.xml 
+o src/main/java/com/example/App.java 
+o src/test/java/com/example/AppTest.java 
+2. Implement the Java Program 
+• Write a simple Java program in App.java under your newly created Git repository for any one 
+of the following scenarios: 
+o Student Grade Calculator 
+o Bank Account Management System 
+o Employee Salary Calculator 
+o Library Book Management System 
+o Simple Calculator Application 
+• Write a corresponding unit test in AppTest.java. 
+3.  Push and Clone the Repository 
+• Clone the repository using Visual Studio Code. 
+• Verify the project structure. 
+4. Build the Maven Project 
+• Use Maven commands in Visual Studio Code terminal to: 
+o Compile the project 
+o Run tests 
+o Build the project (mvn clean install) 
+5. Create and Run Jenkins Pipeline 
+• Create a new Pipeline project in Jenkins. 
+• Create a pipeline script 
+• Execute the pipeline and verify successful build completion. 
+
+
+this is my assignment tell me how to do it
+
+Got you 👍 — I’ll walk you through this step-by-step like a beginner, so you can actually do the assignment without confusion.
+
+🧩 STEP 1: Create Git Repository + Maven Structure
+🔹 1. Create a Git repo (GitHub)
+Go to GitHub
+
+Click New Repository
+
+Name it: maven-project
+
+Click Create
+
+🔹 2. Create project locally
+Open terminal / VS Code terminal:
+
+git clone https://github.com/YOUR_USERNAME/maven-project.git
+cd maven-project
+🔹 3. Create Maven folder structure manually
+Run:
+
+mkdir -p src/main/java/com/example
+mkdir -p src/test/java/com/example
+touch pom.xml
+touch src/main/java/com/example/App.java
+touch src/test/java/com/example/AppTest.java
+🔹 4. Add pom.xml
+Paste this inside pom.xml:
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>maven-project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <!-- JUnit for testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
+🧩 STEP 2: Write Java Program (Simple Calculator)
+🔹 App.java
+package com.example;
+
+public class App {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+
+    public static void main(String[] args) {
+        App calc = new App();
+        System.out.println("Sum: " + calc.add(5, 3));
+    }
+}
+🔹 AppTest.java
+package com.example;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class AppTest {
+
+    @Test
+    public void testAdd() {
+        App calc = new App();
+        assertEquals(8, calc.add(5, 3));
+    }
+
+    @Test
+    public void testSubtract() {
+        App calc = new App();
+        assertEquals(2, calc.subtract(5, 3));
+    }
+}
+🧩 STEP 3: Push to GitHub
+git add .
+git commit -m "Initial Maven project"
+git push origin main
+🧩 STEP 4: Clone in VS Code
+Open Visual Studio Code
+
+Press Ctrl + Shift + P
+
+Select Git: Clone
+
+Paste repo URL
+
+Open the folder
+
+✔ You should see:
+
+src/
+pom.xml
+🧩 STEP 5: Run Maven Commands
+Make sure Maven is installed:
+👉 Apache Maven
+
+🔹 Compile
+mvn compile
+🔹 Run Tests
+mvn test
+🔹 Build Project
+mvn clean install
+✔ If everything is correct → BUILD SUCCESS
+
+🧩 STEP 6: Jenkins Pipeline
+Go to Jenkins
+
+🔹 1. Create Pipeline Project
+Click New Item
+
+Name: maven-pipeline
+
+Select Pipeline
+
+🔹 2. Add Pipeline Script
+Paste this:
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone') {
+            steps {
+                git 'https://github.com/YOUR_USERNAME/maven-project.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                bat 'mvn clean install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+    }
+}
+🔹 3. Run Pipeline
+Click Build Now
+
+Check Console Output
+
+✔ You should see:
+
+BUILD SUCCESS
