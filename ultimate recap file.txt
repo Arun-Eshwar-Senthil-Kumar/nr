@@ -1,0 +1,176 @@
+here’s a clean, no-fluff cheat sheet of everything you actually need to use Git + GitHub + Jenkins + Docker together for your assignments.
+
+Think of this as your “do-this → get-result” playbook.
+
+🔁 1. COMPLETE FLOW (Understand this first)
+Write Code → Git → Push to GitHub → Jenkins pulls → Docker builds → Docker pushes → Deploy
+
+Tools used:
+
+Git
+GitHub
+Jenkins
+Docker
+🔧 2. SETUP (DO ONCE)
+✅ Install Everything
+
+Make sure these work:
+
+git --version
+docker --version
+kubectl version --client
+✅ Start Services
+Open Docker Desktop (Kubernetes ON)
+Start Jenkins (http://localhost:8080)
+📁 3. PROJECT STRUCTURE
+
+Your folder should look like:
+
+project/
+│
+├── index.html
+├── Dockerfile
+├── deployment.yaml
+└── Jenkinsfile   (optional but important)
+🧾 4. GIT COMMANDS (YOU MUST KNOW)
+✅ First time setup
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin YOUR_REPO_URL
+git push -u origin main
+✅ Daily use
+git add .
+git commit -m "update"
+git push
+✅ Pull latest
+git pull
+🌐 5. GITHUB (WHAT YOU DO)
+
+Using GitHub
+
+Create repo
+Push code
+Copy repo URL
+Use in Jenkins
+🐳 6. DOCKER (CORE COMMANDS)
+✅ Build Image
+docker build -t username/app-name .
+✅ Login
+docker login
+✅ Push Image
+docker push username/app-name
+✅ Run Container (test)
+docker run -p 8080:80 username/app-name
+☸️ 7. KUBERNETES (ONLY REQUIRED COMMANDS)
+✅ Apply deployment
+kubectl apply -f deployment.yaml
+✅ Check pods
+kubectl get pods
+✅ Check service
+kubectl get svc
+✅ Delete (if needed)
+kubectl delete -f deployment.yaml
+⚙️ 8. JENKINS (WHAT YOU MUST DO)
+
+Using Jenkins
+
+✅ Add Credentials
+DockerHub → username/password → ID: dockerhub
+Kubernetes → config file → ID: kuberconfig
+✅ Create Pipeline Job
+New Item → Pipeline
+Paste pipeline script
+🧠 9. JENKINS PIPELINE (CORE TEMPLATE)
+✅ This is the MAIN thing you need
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "username/app-name"
+    }
+
+    stages {
+
+        stage('Clone') {
+            steps {
+                git branch: 'main',
+                url: 'YOUR_GITHUB_REPO'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t %DOCKER_IMAGE% .'
+            }
+        }
+
+        stage('Push Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub',
+                usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+
+                    bat 'docker login -u %USER% -p %PASS%'
+                    bat 'docker push %DOCKER_IMAGE%'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                withCredentials([file(credentialsId: 'kuberconfig', variable: 'KUBECONFIG')]) {
+
+                    bat '''
+                    set KUBECONFIG=%KUBECONFIG%
+                    kubectl apply -f deployment.yaml
+                    '''
+                }
+            }
+        }
+    }
+}
+🔁 10. HOW EVERYTHING CONNECTS
+🔄 Step-by-step flow
+You write code
+Run:
+git push
+Jenkins:
+Pulls code from GitHub
+Builds Docker image
+Pushes image
+Deploys to Kubernetes
+🚨 11. MOST COMMON MISTAKES
+❌ Image name mismatch
+
+Must match in:
+
+Docker build
+deployment.yaml
+❌ Docker not running
+
+✔ Always start Docker Desktop
+
+❌ kubectl not working
+
+✔ Enable Kubernetes in Docker
+
+❌ Jenkins can’t run docker
+
+✔ Run Jenkins as Administrator
+
+❌ Wrong credentials ID
+
+Must match exactly:
+
+dockerhub
+kuberconfig
+✅ 12. MINIMUM YOU NEED TO REMEMBER
+
+If exam/viva:
+
+✔ Git → push code
+✔ GitHub → store repo
+✔ Jenkins → automate pipeline
+✔ Docker → package app
+✔ Kubernetes → deploy app
