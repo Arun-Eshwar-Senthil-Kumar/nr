@@ -1,0 +1,159 @@
+🔧 PART 1: Install & Run Basic Jenkins Job
+✅ 1. Install Requirements
+Install Java
+Install Jenkins
+✅ 2. Start Jenkins
+
+Open browser:
+
+http://localhost:8080
+Unlock using password
+Install Suggested Plugins
+✅ 3. Create First Job
+Click New Item
+Name: hello-job
+Select Freestyle Project
+✅ 4. Add Build Step
+Go to Build → Add build step
+Select Execute Windows batch command
+
+Paste:
+
+echo Hello Jenkins
+✅ 5. Run Job
+Click Build Now
+✅ 6. Verify
+Click build → Console Output
+✔ Must show:
+Hello Jenkins
+🔧 PART 2: Connect GitHub with Jenkins
+✅ 1. Install Git
+
+Install Git
+
+Check:
+
+git --version
+✅ 2. Create Repo in GitHub
+
+Use GitHub
+
+✅ 3. Configure Git in Jenkins
+Go → Manage Jenkins → Global Tool Configuration
+Add Git path (auto detect)
+✅ 4. Create New Job
+New Item → git-job
+Select Freestyle
+✅ 5. Connect Repo
+Source Code Management → Git
+Paste repo URL
+✅ 6. Add Build Step
+echo Building from GitHub
+✅ 7. Enable Auto Build
+Tick Poll SCM
+Paste:
+* * * * *
+✅ 8. Test
+Push any change to GitHub
+✔ Jenkins should auto build
+🔧 PART 3: Create Job Flow (A → B → C)
+✅ 1. Create 3 Jobs
+Job-A
+Job-B
+Job-C
+✅ 2. Add Simple Step in Each
+echo Job-A running
+
+(similar for B and C)
+
+✅ 3. Link Jobs
+
+👉 In Job-A
+
+Post-build → Build other projects
+Enter: Job-B
+
+👉 In Job-B
+
+Trigger: Job-C
+✅ 4. Run
+Run Job-A
+
+✔ Flow:
+
+Job-A → Job-B → Job-C
+🔧 PART 4: Pipeline Job
+✅ 1. Create Pipeline
+New Item → pipeline-job
+Select Pipeline
+✅ 2. Add Script
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps { echo 'Build' }
+        }
+        stage('Test') {
+            steps { echo 'Test' }
+        }
+        stage('Deploy') {
+            steps { echo 'Deploy' }
+        }
+    }
+}
+✅ 3. Run
+Click Build Now
+
+✔ Check logs
+
+🔧 PART 5: Jenkinsfile from GitHub
+✅ 1. Create File in Project
+
+Create file: Jenkinsfile
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps { echo 'Building' }
+        }
+        stage('Test') {
+            steps { echo 'Testing' }
+        }
+    }
+}
+✅ 2. Push to GitHub
+git add .
+git commit -m "added Jenkinsfile"
+git push
+✅ 3. Configure Jenkins
+Pipeline job → Definition → Pipeline from SCM
+Git → paste repo URL
+Script path: Jenkinsfile
+✅ 4. Run
+
+✔ Pipeline should execute automatically
+
+🔧 PART 6: Real Build (Maven)
+✅ 1. Install Maven
+
+Install Apache Maven
+
+✅ 2. Add to Pipeline
+stage('Build') {
+    steps {
+        bat 'mvn clean install'
+    }
+}
+✅ 3. Run
+
+✔ Should show:
+
+BUILD SUCCESS
+🔧 PART 7: Basic Admin Tasks
+✅ Do these quickly
+Manage Jenkins → Manage Users → Add user
+Manage Jenkins → Plugins → Install plugin
+Restart Jenkins
