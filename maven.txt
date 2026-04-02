@@ -303,3 +303,253 @@ You have now successfully completed:
 ---
 
 If anything fails, send me the error — I’ll fix it with you 👍
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. Create a Maven Project in Git 
+• Create a new Git repository 
+• Create a simple Maven project structure manually, including the following files and folders: 
+o pom.xml 
+o src/main/java/com/example/App.java 
+o src/test/java/com/example/AppTest.java 
+ 
+ 
+result after the process of creating from vs code and pushing 
+ 
+ 
+ 
+Install java, maven and git 
+ 
+ 
+ 
+ 
+ 
+ 
+Build project structure 
+ 
+ 
+2. Implement the Java Program 
+• Write a simple Java program in App.java under your newly created Git repository for any one 
+of the following scenarios: 
+• Simple Calculator Application 
+Write a corresponding unit test in AppTest.java. 
+ 
+App.java 
+package com.example; 
+public class App { 
+    public int add(int a, int b) { 
+        return a + b; 
+    } 
+    public static void main(String[] args) { 
+        App calculator = new App(); 
+        int result = calculator.add(5, 3); 
+        System.out.println("Addition Result: " + result); 
+    } 
+} 
+ 
+ 
+ 
+AppTest.java 
+ 
+ 
+package com.example; 
+ 
+import static org.junit.Assert.assertEquals; 
+import org.junit.Test; 
+ 
+public class AppTest { 
+    @Test 
+    public void testAddition() { 
+        App calculator = new App(); 
+        int result = calculator.add(5, 3); 
+        assertEquals(8, result); 
+    } 
+ 
+} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Pom.xml 
+ 
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+ http://maven.apache.org/xsd/maven-4.0.0.xsd"> 
+ 
+ <modelVersion>4.0.0</modelVersion> 
+ 
+ <groupId>com.example</groupId> 
+ <artifactId>devops-maven-lab</artifactId> 
+ <version>1.0-SNAPSHOT</version> 
+ 
+ <dependencies> 
+  <dependency> 
+   <groupId>junit</groupId> 
+   <artifactId>junit</artifactId> 
+   <version>4.13.2</version> 
+   <scope>test</scope> 
+  </dependency> 
+ </dependencies> 
+ 
+</project> 
+ 
+ 
+ 
+ 
+ 
+ 
+3. Push and Clone the Repository 
+• Clone the repository using Visual Studio Code. 
+• Verify the project structure. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Git add 
+ 
+Git push 
+ 
+ 
+ 
+ 
+Repository 
+ 
+ 
+ 
+4. Build the Maven Project 
+• Use Maven commands in Visual Studio Code terminal to: 
+o Compile the project 
+o Run tests 
+o Build the project (mvn clean install) 
+ 
+ 
+ 
+ 
+ 
+Mvm Compile ,Mvm Test, Mvm Clean Install 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Dir 
+ 
+ 
+ 
+ 
+5. Create and Run Jenkins Pipeline 
+• Create a new Pipeline project in Jenkins. 
+• Create a pipeline script 
+• Execute the pipeline and verify successful build completion. 
+ 
+ 
+Maven 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+JDK 
+ 
+ 
+ 
+ 
+Pipeline Script 
+ 
+pipeline { 
+    agent any 
+    stages { 
+        stage('Clone Repository') { 
+            steps { 
+                git branch: 'main', url: 'https://github.com/Arun-Eshwar-Senthil-Kumar/devops-maven
+lab.git' 
+            } } 
+        stage('Compile') { 
+            steps { 
+                bat 'mvn compile' 
+            } } 
+        stage('Test') { 
+            steps { 
+                bat 'mvn test' 
+            } } 
+        stage('Build') { 
+            steps { 
+                bat 'mvn clean install' 
+            }}}} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Console Output 
+ 
+ 
+ 
+ 
+ 
+ 
+Pipeline View
