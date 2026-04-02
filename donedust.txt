@@ -1,0 +1,305 @@
+# 🚀 COMPLETE MAVEN + GIT + JENKINS ASSIGNMENT GUIDE
+
+---
+
+# 🔰 BEFORE YOU START (VERY IMPORTANT)
+
+Make sure you have these installed:
+
+✔ Git → `git --version`
+✔ Java (JDK 8 or above) → `java -version`
+✔ Maven → `mvn -version`
+✔ VS Code
+✔ Jenkins (running locally or server)
+
+---
+
+# 📁 STEP 1: CREATE GIT REPOSITORY + MAVEN PROJECT STRUCTURE
+
+## 1. Create Folder
+
+```
+mkdir MavenProject
+cd MavenProject
+```
+
+## 2. Initialize Git
+
+```
+git init
+```
+
+## 3. Create Maven Structure
+
+```
+mkdir -p src/main/java/com/example
+mkdir -p src/test/java/com/example
+```
+
+## 4. Create Files
+
+```
+touch pom.xml
+touch src/main/java/com/example/App.java
+touch src/test/java/com/example/AppTest.java
+```
+
+---
+
+# 📄 STEP 2: ADD CODE
+
+## 🔹 pom.xml (COPY THIS FULL)
+
+```
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>maven-project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <!-- JUnit Dependency -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
+```
+
+---
+
+## 🔹 App.java (Simple Calculator Example)
+
+```
+package com.example;
+
+public class App {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+
+    public static void main(String[] args) {
+        App app = new App();
+        System.out.println("Addition: " + app.add(5, 3));
+        System.out.println("Subtraction: " + app.subtract(5, 3));
+    }
+}
+```
+
+---
+
+## 🔹 AppTest.java (Unit Test)
+
+```
+package com.example;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class AppTest {
+
+    @Test
+    public void testAdd() {
+        App app = new App();
+        assertEquals(8, app.add(5, 3));
+    }
+
+    @Test
+    public void testSubtract() {
+        App app = new App();
+        assertEquals(2, app.subtract(5, 3));
+    }
+}
+```
+
+---
+
+# 📤 STEP 3: PUSH TO GITHUB
+
+## 1. Create Repo in GitHub (empty repo)
+
+## 2. Connect Local Repo
+
+```
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+```
+
+## 3. Add + Commit + Push
+
+```
+git add .
+git commit -m "Initial Maven Project"
+git branch -M main
+git push -u origin main
+```
+
+---
+
+# 💻 STEP 4: CLONE IN VS CODE
+
+## In VS Code Terminal:
+
+```
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+cd YOUR_REPO
+code .
+```
+
+✔ Check folder structure:
+
+```
+src/
+ ├── main/java/com/example/App.java
+ └── test/java/com/example/AppTest.java
+```
+
+---
+
+# ⚙️ STEP 5: MAVEN COMMANDS
+
+Run inside VS Code terminal:
+
+## Compile
+
+```
+mvn compile
+```
+
+## Run Tests
+
+```
+mvn test
+```
+
+## Build Project
+
+```
+mvn clean install
+```
+
+✔ You should see:
+
+```
+BUILD SUCCESS
+```
+
+---
+
+# 🔁 STEP 6: JENKINS PIPELINE
+
+## 1. Open Jenkins
+
+Go to:
+
+```
+http://localhost:8080
+```
+
+---
+
+## 2. Create Pipeline Job
+
+* Click **New Item**
+* Name: `MavenPipeline`
+* Select **Pipeline**
+* Click OK
+
+---
+
+## 3. Pipeline Script (COPY THIS)
+
+```
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Clone Code') {
+            steps {
+                git 'https://github.com/YOUR_USERNAME/YOUR_REPO.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                bat 'mvn clean compile'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                bat 'mvn clean install'
+            }
+        }
+    }
+}
+```
+
+⚠️ If using Linux/Mac:
+Replace `bat` with `sh`
+
+Example:
+
+```
+sh 'mvn clean install'
+```
+
+---
+
+## 4. Run Pipeline
+
+* Click **Build Now**
+* Open Console Output
+
+✔ You should see:
+
+```
+BUILD SUCCESS
+```
+
+---
+
+# ✅ FINAL CHECKLIST
+
+✔ Git repo created
+✔ Maven project structured
+✔ Java code added
+✔ Unit tests working
+✔ Code pushed to GitHub
+✔ Project cloned in VS Code
+✔ Maven build successful
+✔ Jenkins pipeline executed
+
+---
+
+# 🎯 DONE!
+
+You have now successfully completed:
+✔ Git
+✔ Maven
+✔ Unit Testing
+✔ Jenkins CI Pipeline
+
+---
+
+If anything fails, send me the error — I’ll fix it with you 👍
